@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="shareIt">
+    <meta name="author" content="Felix Imobersteg">
+    <link rel="icon" href="/favicon.ico">
+
+    <title>shareIt</title>
+
+    <link href="/css/style.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Begin page content -->
+    <div class="container">
+      <div class="page-header">
+        <h1>shareIt</h1>
+      </div>
+      <table class="table" id="files">
+        <thead>
+          <tr>
+            <td>Filename</td>
+            <td>Action</td>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+      <form id="form" method="POST" action="/api/room/2e477172-fdb6-40af-6d74-65d04fcfe0f6/file">
+        Select file to upload:
+        <input type="file" name="file" id="file" required><br>
+        <input type="submit" value="Upload" name="submit">
+    </form>
+
+
+      <footer>
+        <p>made with &hearts; - available on <a href="http://github.com/n3r0-ch/sharit">Github</a></p> 
+      </footer>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.form.js"></script> 
+    <script type="text/javascript">
+      $(document).ready(function() {
+
+        //Load files
+        var roomid = location.hash;  
+        roomid = roomid.replace(/^#/, ''); 
+        $.getJSON("/api/room/" + roomid , function(data) {
+
+          var i = 0;
+          data.files.forEach(function(file) {
+            $("#files tbody").append("<tr><td><a href='/api/room/" +  roomid + "/file/" + file.name + "'>" + file.name + "</a></td>" + 
+              "<td><a href='#" + roomid + "' id='delete-" + i + "'>Delete</a></td></tr>");
+
+            //Add delete action
+            $("#delete-" + i).click(function(){
+                $.ajax({
+                    url: "/api/room/" +  roomid + "/file/" + file.name,
+                    type: 'DELETE',
+                    success: function(result) {
+                        location.reload();
+                    }
+                });
+            });
+
+            i++;
+          })
+
+        }).error(function() { window.location = "/404" });
+
+         //Upload action
+        $("#form").attr("action","/api/room/" + roomid + "/file");
+        $('#form').ajaxForm(function() { 
+          location.reload();
+        }); 
+
+      });
+    </script>
+  </body>
+</html>

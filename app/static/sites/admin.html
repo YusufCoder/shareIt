@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="shareIt">
+    <meta name="author" content="Felix Imobersteg">
+    <link rel="icon" href="/favicon.ico">
+
+    <title>shareIt</title>
+
+    <link href="/css/style.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <!-- Begin page content -->
+    <div class="container">
+      <div class="page-header">
+        <h1>shareIt</h1>
+      </div>
+      <p>Create a new room?<br>
+      <a id="yes" href="#">Yes</a> or <a href="/">No</a></p>
+      <br>
+
+      <footer>
+        <p>made with &hearts; - available on <a href="http://github.com/n3r0-ch/sharit">Github</a></p> 
+      </footer>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $( "#yes" ).click(function() {
+          $.post( "/api/room", function( data ) {
+            window.location = "/room#" + data.id
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
