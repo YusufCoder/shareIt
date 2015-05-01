@@ -21,7 +21,7 @@ Now, there is a solution: shareIt
 
 ##Usage
 ```
-docker run -e ADMIN_PW=yourSecretPW -p9000 n3r0ch/shareit
+docker run -e ADMIN_PW=yourSecretPW -p 9000:9000 n3r0ch/shareit
 ```
 
 Create a new room under `http://localhost:9000/admin`. Afterward you can simply upload files. Every user who are knowing the room URL (`http://localhost:9000/room#[secret-id]`) are permitted to access, edit and delete all files in the given room.
